@@ -10,7 +10,7 @@ import { format } from 'date-fns';
 const SEVERITY_COLORS = { critical: '#c0392b', high: '#e67e22', medium: '#f39c12', low: '#27ae60' };
 
 const IncidentTable = () => {
-  const { isAdmin } = useAuth();
+  const { isAdmin } = useAuth(); // eslint-disable-line no-unused-vars
   const [page, setPage] = useState(1);
   const [showForm, setShowForm] = useState(false);
   const { data, isLoading, refetch } = useGetIncidentsQuery({ page, limit: 15 });
