@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchMe } from './features/auth/authSlice';
 import useAuth from './hooks/useAuth';
@@ -45,7 +45,7 @@ const NotFound = () => (
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
     <h1 style={{ fontSize: '4rem', color: '#c0392b' }}>404</h1>
     <p style={{ color: '#6c757d', marginBottom: '16px' }}>Page not found</p>
-    <a href="/dashboard" style={{ color: '#2980b9', fontWeight: '600' }}>Go to Dashboard</a>
+    <Link to="/dashboard" style={{ color: '#2980b9', fontWeight: '600' }}>Go to Dashboard</Link>
   </div>
 );
 
