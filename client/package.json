@@ -20,7 +20,7 @@
     "react-toastify": "^10.0.3",
     "recharts": "^2.10.1",
     "socket.io-client": "^4.6.1",
-    "yaml": "2.8.3"
+    "yaml": "^2.8.3"
   },
   "scripts": {
     "start": "react-scripts start",
