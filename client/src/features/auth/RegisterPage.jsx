@@ -35,7 +35,7 @@ const RegisterPage = () => {
     <div style={styles.container}>
       <div style={styles.card}>
         <div style={styles.header}>
-          <h1 style={styles.logo}>🔥 FRIMS</h1>
+          <h1 style={styles.logo}>🔥 BLAZE</h1>
         </div>
         <h2 style={styles.title}>Create Account</h2>
         <form onSubmit={handleSubmit} style={styles.form}>

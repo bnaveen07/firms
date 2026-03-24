@@ -25,7 +25,7 @@ const VerifyNOC = () => {
     <div style={styles.container}>
       <div style={{ ...styles.card, borderTop: `4px solid ${isValid ? '#27ae60' : '#c0392b'}` }}>
         <div style={styles.icon}>{isValid ? '✅' : '⚠️'}</div>
-        <h1 style={{ color: '#2c3e50', marginBottom: '8px' }}>🔥 FRIMS NOC Verification</h1>
+        <h1 style={{ color: '#2c3e50', marginBottom: '8px' }}>🔥 BLAZE NOC Verification</h1>
         <h2 style={{ color: isValid ? '#27ae60' : '#c0392b', marginBottom: '24px' }}>
           {isValid ? 'Certificate is VALID' : 'Certificate is INVALID / EXPIRED'}
         </h2>
@@ -44,7 +44,7 @@ const VerifyNOC = () => {
         )}
 
         <p style={styles.footer}>
-          Verified by Fire Risk Incident Management System (FRIMS)
+          Verified by BLAZE — Building &amp; Location Alert Zone Engine
         </p>
       </div>
     </div>

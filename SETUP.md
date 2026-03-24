@@ -1,6 +1,6 @@
-# FRIMS — Production Setup Guide
+# BLAZE — Production Setup Guide
 
-**Fire Risk Incident Management System (FRIMS)**
+**Building & Location Alert Zone Engine (BLAZE)**
 
 > **This guide covers production deployment only.**  
 > All secrets are managed through **GitHub Secrets** (for CI/CD and frontend build) and **Firebase Secret Manager** (for backend runtime). No `.env` files exist in the production environment — they are used only for local development.
@@ -8,7 +8,7 @@
 ---
 
 ## Table of Contents
-1. [How Secrets Work in FRIMS](#1-how-secrets-work-in-frims)
+1. [How Secrets Work in BLAZE](#1-how-secrets-work-in-blaze)
 2. [Prerequisites & Accounts](#2-prerequisites--accounts)
 3. [Project Structure](#3-project-structure)
 4. [Firebase Project Setup](#4-firebase-project-setup)
@@ -27,7 +27,7 @@
 
 ---
 
-## 1. How Secrets Work in FRIMS
+## 1. How Secrets Work in BLAZE
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -177,8 +177,8 @@ firms/
 ### 4.1 Create a Firebase Project
 
 1. Open https://console.firebase.google.com and sign in.
-2. Click **"Add project"** → enter a name (e.g., `frims-prod`).
-3. Note the **Project ID** that appears beneath the name (e.g., `frims-prod-abc12`). You will use it in several places.
+2. Click **"Add project"** → enter a name (e.g., `blaze-prod`).
+3. Note the **Project ID** that appears beneath the name (e.g., `blaze-prod-abc12`). You will use it in several places.
 4. Click **"Create project"**.
 
 ### 4.2 Register a Web App and Copy the Config
@@ -186,14 +186,14 @@ firms/
 The Firebase JS SDK config values go into GitHub Secrets (not a `.env` file).
 
 1. Firebase Console → ⚙️ **Project settings** → **"Your apps"** → click **`</>`** (Web).
-2. Enter a nickname (`frims-web`), tick **"Also set up Firebase Hosting"**, click **"Register app"**.
+2. Enter a nickname (`blaze-web`), tick **"Also set up Firebase Hosting"**, click **"Register app"**.
 3. Firebase shows a config block:
    ```js
    const firebaseConfig = {
      apiKey: "AIzaSy...",
-     authDomain: "frims-prod-abc12.firebaseapp.com",
-     projectId: "frims-prod-abc12",
-     storageBucket: "frims-prod-abc12.appspot.com",
+     authDomain: "blaze-prod-abc12.firebaseapp.com",
+     projectId: "blaze-prod-abc12",
+     storageBucket: "blaze-prod-abc12.appspot.com",
      messagingSenderId: "123456789012",
      appId: "1:123456789012:web:abcdef1234567890"
    };
@@ -217,12 +217,12 @@ The Firebase JS SDK config values go into GitHub Secrets (not a `.env` file).
 
 ```bash
 firebase login                        # Opens browser OAuth
-firebase use frims-prod-abc12         # Replace with your Project ID
+firebase use blaze-prod-abc12         # Replace with your Project ID
 ```
 
 Update `.firebaserc` if it has a placeholder project ID:
 ```json
-{ "projects": { "default": "frims-prod-abc12" } }
+{ "projects": { "default": "blaze-prod-abc12" } }
 ```
 
 ### 4.6 Why No Service Account Key in Production
@@ -236,7 +236,7 @@ In production, the backend runs inside Firebase Cloud Functions. The Firebase Ad
 ### 5.1 Create an Atlas Account and Project
 
 1. Go to https://cloud.mongodb.com and sign in (or register).
-2. Create an **Organization** → inside it, create a **Project** named `frims-prod`.
+2. Create an **Organization** → inside it, create a **Project** named `blaze-prod`.
 
 ### 5.2 Create a Cluster
 
@@ -252,7 +252,7 @@ In production, the backend runs inside Firebase Cloud Functions. The Firebase Ad
 
 1. Atlas → **Security** → **Database Access** → **"Add New Database User"**.
 2. Authentication: **Password**.
-3. Username: `frims_api` | Password: **click "Autogenerate Secure Password"** → **copy it immediately**.
+3. Username: `blaze_api` | Password: **click "Autogenerate Secure Password"** → **copy it immediately**.
 4. Role: **"Read and write to any database"** (`readWriteAnyDatabase`).
 5. Click **"Add User"**.
 
@@ -273,16 +273,16 @@ This password is part of `MONGODB_URI`. Store it in Firebase Secret Manager (§8
 2. Choose **"Drivers"** → Driver: **Node.js** → Version: **5.5 or later**.
 3. Copy the connection string. Modify it:
    ```
-   mongodb+srv://frims_api:YOUR_PASSWORD@cluster.abc12.mongodb.net/frims?retryWrites=true&w=majority
+   mongodb+srv://blaze_api:YOUR_PASSWORD@cluster.abc12.mongodb.net/blaze?retryWrites=true&w=majority
    ```
-   Replace `<password>` with the database user password and append `/frims` as the database name.
+   Replace `<password>` with the database user password and append `/blaze` as the database name.
 4. Store this complete string in Firebase Secret Manager as `MONGODB_URI` (§8).
 
 ---
 
 ## 6. Gmail SMTP App Password
 
-FRIMS uses Nodemailer to send emails (status updates, inspection notifications). It authenticates to Gmail using an **App Password** — a 16-character token that works without your real Gmail password.
+BLAZE uses Nodemailer to send emails (status updates, inspection notifications). It authenticates to Gmail using an **App Password** — a 16-character token that works without your real Gmail password.
 
 ### 6.1 Enable 2-Step Verification
 
@@ -292,7 +292,7 @@ FRIMS uses Nodemailer to send emails (status updates, inspection notifications).
 ### 6.2 Generate an App Password
 
 1. Go to https://myaccount.google.com/apppasswords (only visible after 2-Step is enabled).
-2. In **"App name"** enter `FRIMS Production` → click **"Create"**.
+2. In **"App name"** enter `BLAZE Production` → click **"Create"**.
 3. Google shows a 16-character password. **Copy it immediately** — it is shown only once.
 4. Remove spaces (e.g., `abcd efgh ijkl mnop` → `abcdefghijklmnop`).
 
@@ -311,7 +311,7 @@ These secrets are used by the GitHub Actions workflow at CI/CD time. They are in
 | Secret Name | Value | Where to Get It |
 |-------------|-------|-----------------|
 | `JWT_SECRET` | A random 96-char hex string | `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"` |
-| `MONGODB_URI_TEST` | A test/dev Atlas connection string | MongoDB Atlas — create a separate `frims_test` database; use the same format as §5.5 |
+| `MONGODB_URI_TEST` | A test/dev Atlas connection string | MongoDB Atlas — create a separate `blaze_test` database; use the same format as §5.5 |
 
 > `MONGODB_URI_TEST` is used only during CI tests — use a separate dev-tier Atlas cluster (free M0 is fine for tests).
 
@@ -321,9 +321,9 @@ These secrets are used by the GitHub Actions workflow at CI/CD time. They are in
 |-------------|-------|-----------------|
 | `REACT_APP_SOCKET_URL` | `https://us-central1-YOUR_PROJECT.cloudfunctions.net` | Firebase Console → **Functions** → **Dashboard** → URL of the `api` function |
 | `REACT_APP_FIREBASE_API_KEY` | `AIzaSy...` | Firebase Console → Project settings → Your apps → Web app → `apiKey` |
-| `REACT_APP_FIREBASE_AUTH_DOMAIN` | `frims-prod-abc12.firebaseapp.com` | Firebase Console → Project settings → Your apps → `authDomain` |
-| `REACT_APP_FIREBASE_PROJECT_ID` | `frims-prod-abc12` | Firebase Console → Project settings → **General** → **Project ID** |
-| `REACT_APP_FIREBASE_STORAGE_BUCKET` | `frims-prod-abc12.appspot.com` | Firebase Console → Project settings → Your apps → `storageBucket` |
+| `REACT_APP_FIREBASE_AUTH_DOMAIN` | `blaze-prod-abc12.firebaseapp.com` | Firebase Console → Project settings → Your apps → `authDomain` |
+| `REACT_APP_FIREBASE_PROJECT_ID` | `blaze-prod-abc12` | Firebase Console → Project settings → **General** → **Project ID** |
+| `REACT_APP_FIREBASE_STORAGE_BUCKET` | `blaze-prod-abc12.appspot.com` | Firebase Console → Project settings → Your apps → `storageBucket` |
 | `REACT_APP_FIREBASE_MESSAGING_SENDER_ID` | `123456789012` | Firebase Console → Project settings → Your apps → `messagingSenderId` |
 | `REACT_APP_FIREBASE_APP_ID` | `1:...:web:...` | Firebase Console → Project settings → Your apps → `appId` |
 | `REACT_APP_FIREBASE_VAPID_KEY` | `BExample...` | Firebase Console → Project settings → **Cloud Messaging** → Web Push certificates → **Key pair** |
@@ -362,16 +362,16 @@ firebase functions:secrets:set SECRET_NAME
 
 | Secret Name | Value | Where to Get It |
 |-------------|-------|-----------------|
-| `MONGODB_URI` | Full Atlas connection string including `/frims` database | §5.5 |
+| `MONGODB_URI` | Full Atlas connection string including `/blaze` database | §5.5 |
 | `JWT_SECRET` | **Same value** as the `JWT_SECRET` GitHub Secret | Generate with `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"` — use the same value in both places |
 | `JWT_EXPIRES_IN` | `7d` | Token lifetime — `7d` means users stay logged in 7 days |
-| `FIREBASE_PROJECT_ID` | `frims-prod-abc12` | Firebase Console → Project settings → General → **Project ID** |
-| `FIREBASE_STORAGE_BUCKET` | `frims-prod-abc12.appspot.com` | Firebase Console → Project settings → General → **Default GCS bucket** |
+| `FIREBASE_PROJECT_ID` | `blaze-prod-abc12` | Firebase Console → Project settings → General → **Project ID** |
+| `FIREBASE_STORAGE_BUCKET` | `blaze-prod-abc12.appspot.com` | Firebase Console → Project settings → General → **Default GCS bucket** |
 | `EMAIL_HOST` | `smtp.gmail.com` | Fixed value |
 | `EMAIL_PORT` | `587` | Fixed value (TLS STARTTLS port) |
-| `EMAIL_USER` | `frims.notifications@gmail.com` | Your Gmail address used in §6 |
+| `EMAIL_USER` | `blaze.notifications@gmail.com` | Your Gmail address used in §6 |
 | `EMAIL_PASS` | 16-character App Password | §6.2 |
-| `FRONTEND_URL` | `https://frims-prod-abc12.web.app` | Firebase Hosting URL shown after first deploy; use comma-separated for multiple domains |
+| `FRONTEND_URL` | `https://blaze-prod-abc12.web.app` | Firebase Hosting URL shown after first deploy; use comma-separated for multiple domains |
 
 ### 8.2 Add All Secrets in One Session
 
@@ -427,11 +427,11 @@ The build must receive all `REACT_APP_*` values as environment variables. In Git
 
 ```bash
 export REACT_APP_API_URL=/api
-export REACT_APP_SOCKET_URL=https://us-central1-frims-prod-abc12.cloudfunctions.net
+export REACT_APP_SOCKET_URL=https://us-central1-blaze-prod-abc12.cloudfunctions.net
 export REACT_APP_FIREBASE_API_KEY=AIzaSy...
-export REACT_APP_FIREBASE_AUTH_DOMAIN=frims-prod-abc12.firebaseapp.com
-export REACT_APP_FIREBASE_PROJECT_ID=frims-prod-abc12
-export REACT_APP_FIREBASE_STORAGE_BUCKET=frims-prod-abc12.appspot.com
+export REACT_APP_FIREBASE_AUTH_DOMAIN=blaze-prod-abc12.firebaseapp.com
+export REACT_APP_FIREBASE_PROJECT_ID=blaze-prod-abc12
+export REACT_APP_FIREBASE_STORAGE_BUCKET=blaze-prod-abc12.appspot.com
 export REACT_APP_FIREBASE_MESSAGING_SENDER_ID=123456789012
 export REACT_APP_FIREBASE_APP_ID=1:123456789012:web:abcdef1234567890
 export REACT_APP_FIREBASE_VAPID_KEY=BExample...
@@ -478,7 +478,7 @@ No `.env` file is ever created or read during CI/CD.
 Firebase prints the live URL after deploy:
 ```
 ✔  Deploy complete!
-Hosting URL: https://frims-prod-abc12.web.app
+Hosting URL: https://blaze-prod-abc12.web.app
 ```
 
 Check the Cloud Function URL:
@@ -507,13 +507,13 @@ bcrypt.hash('YourAdminPassword@123', 12).then(h => console.log(h));
 ### 10.2 Insert the Admin Document in MongoDB Atlas
 
 1. Atlas Console → **Deployment** → **Database** → **"Browse Collections"** on your cluster.
-2. Select the `frims` database → `users` collection.
+2. Select the `blaze` database → `users` collection.
 3. Click **"INSERT DOCUMENT"** → paste:
 
 ```json
 {
   "name": "System Administrator",
-  "email": "admin@frims.gov",
+  "email": "admin@blaze.gov",
   "password": "$2a$12$PASTE_BCRYPT_HASH_HERE",
   "role": "admin",
   "isActive": true,
@@ -526,9 +526,9 @@ bcrypt.hash('YourAdminPassword@123', 12).then(h => console.log(h));
 ### 10.3 Verify Admin Login
 
 ```bash
-curl -X POST https://frims-prod-abc12.web.app/api/auth/login \
+curl -X POST https://blaze-prod-abc12.web.app/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@frims.gov","password":"YourAdminPassword@123"}'
+  -d '{"email":"admin@blaze.gov","password":"YourAdminPassword@123"}'
 # Expected: {"success":true,"token":"eyJhb...","user":{"role":"admin",...}}
 ```
 
@@ -537,16 +537,16 @@ curl -X POST https://frims-prod-abc12.web.app/api/auth/login \
 ## 11. Post-Deployment Verification
 
 ```bash
-BASE=https://frims-prod-abc12.web.app
+BASE=https://blaze-prod-abc12.web.app
 
 # 1. Health endpoint
 curl $BASE/api/health
-# Expected: {"success":true,"message":"FRIMS API is running","version":"1.0.0"}
+# Expected: {"success":true,"message":"BLAZE API is running","version":"1.0.0"}
 
 # 2. Login
 TOKEN=$(curl -s -X POST $BASE/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@frims.gov","password":"YourAdminPassword@123"}' \
+  -d '{"email":"admin@blaze.gov","password":"YourAdminPassword@123"}' \
   | node -e "process.stdin||(process.stdin=require('fs').createReadStream('/dev/stdin'));let d='';process.stdin.on('data',c=>d+=c).on('end',()=>console.log(JSON.parse(d).token))")
 
 # 3. Verify token
@@ -562,7 +562,7 @@ Frontend route checks (open in browser):
 
 | URL | Expected |
 |-----|---------|
-| `https://frims-prod-abc12.web.app/` | Redirects → `/dashboard` |
+| `https://blaze-prod-abc12.web.app/` | Redirects → `/dashboard` |
 | `/login` | Login form |
 | `/register` | Registration form |
 | `/verify-noc/test` | "Certificate not found" |
@@ -572,7 +572,7 @@ Frontend route checks (open in browser):
 
 ## 12. API Reference
 
-Base URL in production: `https://frims-prod-abc12.web.app/api`
+Base URL in production: `https://blaze-prod-abc12.web.app/api`
 
 ### Authentication
 
@@ -656,7 +656,7 @@ draft → submitted → under_review → inspection_scheduled → inspection_in_
 
 ### Firebase Secret Manager
 - [ ] All secrets listed in §8 are set with `firebase functions:secrets:set`
-- [ ] `MONGODB_URI` includes the database name (`/frims`) and `retryWrites=true&w=majority`
+- [ ] `MONGODB_URI` includes the database name (`/blaze`) and `retryWrites=true&w=majority`
 - [ ] `FRONTEND_URL` is the exact production domain(s) — no trailing slashes, correct scheme (`https://`)
 
 ### Code & Repository
@@ -707,7 +707,7 @@ Set alerts: Atlas → **"Alerts"** → **"Add Alert"**.
 Use a free external monitor so you get alerted if the API goes down:
 
 1. Register at https://uptimerobot.com (free tier: 50 monitors, 5-min checks).
-2. Add an **HTTP(s)** monitor pointing to: `https://frims-prod-abc12.web.app/api/health`
+2. Add an **HTTP(s)** monitor pointing to: `https://blaze-prod-abc12.web.app/api/health`
 3. Set email/SMS notifications.
 
 ---
@@ -739,7 +739,7 @@ firebase deploy --only functions
 **Causes:**
 1. IP not in Atlas allowlist → Atlas → Security → Network Access → add your range or `0.0.0.0/0`
 2. Wrong password → special characters in the password must be URL-encoded (e.g., `@` → `%40`)
-3. Missing database name in URI → ensure `/frims` appears before `?`
+3. Missing database name in URI → ensure `/blaze` appears before `?`
 4. Free M0 cluster paused (idle > 60 days) → Atlas → your cluster → **"Resume"**
 
 ---
@@ -761,7 +761,7 @@ firebase deploy --only functions
 **Symptom:** `Access to XMLHttpRequest blocked by CORS policy`
 
 **Fix:**
-1. Verify `FRONTEND_URL` in Firebase Secret Manager exactly matches the `Origin` header (e.g., `https://frims-prod-abc12.web.app` — no trailing slash, correct scheme)
+1. Verify `FRONTEND_URL` in Firebase Secret Manager exactly matches the `Origin` header (e.g., `https://blaze-prod-abc12.web.app` — no trailing slash, correct scheme)
 2. Update and re-deploy: `firebase functions:secrets:set FRONTEND_URL` → `firebase deploy --only functions`
 
 ---

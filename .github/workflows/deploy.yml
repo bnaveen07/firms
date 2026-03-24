@@ -1,4 +1,4 @@
-name: FRIMS CI/CD Pipeline
+name: BLAZE CI/CD Pipeline
 
 # All sensitive values come from GitHub Secrets (repo Settings → Secrets → Actions).
 # Nothing is hardcoded in this file.

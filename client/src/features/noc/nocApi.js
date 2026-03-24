@@ -5,7 +5,7 @@ export const nocApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL || '/api',
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem('frims_token');
+      const token = localStorage.getItem('blaze_token');
       if (token) headers.set('Authorization', `Bearer ${token}`);
       return headers;
     },

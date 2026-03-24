@@ -5,7 +5,11 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#c0392b" />
-    <meta name="description" content="FRIMS - Fire Risk Incident Management System" />
+    <meta name="description" content="BLAZE — Building & Location Alert Zone Engine. A production-ready platform for fire departments to manage NOC applications, track incidents in real time, and issue QR-verified certificates." />
+    <meta name="keywords" content="fire safety, NOC, incident management, fire department, certificate, inspection" />
+    <meta property="og:title" content="BLAZE — Building & Location Alert Zone Engine" />
+    <meta property="og:description" content="Manage NOC applications, track live fire incidents, and issue QR-verified certificates." />
+    <meta property="og:type" content="website" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link
@@ -14,7 +18,30 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     />
-    <title>FRIMS - Fire Risk Incident Management System</title>
+    <title>BLAZE — Building &amp; Location Alert Zone Engine</title>
+
+    <!--
+      GitHub Pages SPA — restore redirect.
+      When a page reload on a sub-route is served via the 404.html redirect
+      (see public/404.html), the encoded path is in the query string.
+      This script restores the original path in the browser History before
+      React mounts, so React Router sees the correct URL.
+
+      Source: https://github.com/rafgraph/spa-github-pages
+    -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(
+            null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location));
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
