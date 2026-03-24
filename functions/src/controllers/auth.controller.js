@@ -11,7 +11,13 @@ const generateToken = (id) => {
 
 const register = async (req, res, next) => {
   try {
-    const { name, email, password, role, phone, organization } = req.body;
+    const { name, email, password, phone, organization } = req.body;
+
+    // Only 'applicant' and 'inspector' can self-register.
+    // Admin accounts must be created by an existing admin (via a separate admin-only route).
+    const requestedRole = req.body.role;
+    const SELF_REGISTER_ROLES = ['applicant', 'inspector'];
+    const role = SELF_REGISTER_ROLES.includes(requestedRole) ? requestedRole : 'applicant';
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
