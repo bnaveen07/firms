@@ -3,7 +3,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
-require('dotenv').config();
+// dotenv is intentionally NOT loaded here.
+// • Production (Cloud Functions): secrets are injected by Firebase Secret Manager via runWith().
+// • Local development: dotenv.config() is called in index.js before this module is imported.
 
 const { defaultLimiter } = require('./middleware/rateLimiter');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
