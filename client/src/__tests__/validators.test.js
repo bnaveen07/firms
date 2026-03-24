@@ -4,7 +4,7 @@ describe('Validators', () => {
   describe('isValidEmail', () => {
     it('accepts valid emails', () => {
       expect(isValidEmail('user@example.com')).toBe(true);
-      expect(isValidEmail('admin@frims.gov.in')).toBe(true);
+      expect(isValidEmail('admin@blaze.gov.in')).toBe(true);
     });
     it('rejects invalid emails', () => {
       expect(isValidEmail('notanemail')).toBe(false);

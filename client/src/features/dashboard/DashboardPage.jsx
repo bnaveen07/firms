@@ -34,7 +34,7 @@ const DashboardPage = () => {
       <div style={styles.welcomeBar}>
         <div>
           <h1 style={styles.welcomeTitle}>Welcome back, {user?.name?.split(' ')[0]}! 👋</h1>
-          <p style={styles.welcomeSub}>Here&apos;s what&apos;s happening in FRIMS today</p>
+          <p style={styles.welcomeSub}>Here&apos;s what&apos;s happening in BLAZE today</p>
         </div>
         <div style={styles.roleBadge}>{user?.role?.toUpperCase()}</div>
       </div>

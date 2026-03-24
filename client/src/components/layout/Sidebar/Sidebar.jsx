@@ -27,8 +27,8 @@ const Sidebar = () => {
       <div style={styles.logo}>
         <span style={styles.logoIcon}>🔥</span>
         <div>
-          <div style={styles.logoText}>FRIMS</div>
-          <div style={styles.logoSub}>Fire Risk IMS</div>
+          <div style={styles.logoText}>BLAZE</div>
+          <div style={styles.logoSub}>Fire Safety Platform</div>
         </div>
       </div>
 

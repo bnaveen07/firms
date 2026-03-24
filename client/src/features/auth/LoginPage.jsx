@@ -28,8 +28,8 @@ const LoginPage = () => {
     <div style={styles.container}>
       <div style={styles.card}>
         <div style={styles.header}>
-          <h1 style={styles.logo}>🔥 FRIMS</h1>
-          <p style={styles.subtitle}>Fire Risk Incident Management System</p>
+          <h1 style={styles.logo}>🔥 BLAZE</h1>
+          <p style={styles.subtitle}>Building &amp; Location Alert Zone Engine</p>
         </div>
         <h2 style={styles.title}>Sign In</h2>
         {error && <div style={styles.error}>{error}</div>}

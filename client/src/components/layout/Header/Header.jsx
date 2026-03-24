@@ -15,7 +15,7 @@ const PAGE_TITLES = {
 const Header = () => {
   const location = useLocation();
   const { user } = useAuth();
-  const title = PAGE_TITLES[location.pathname] || 'FRIMS';
+  const title = PAGE_TITLES[location.pathname] || 'BLAZE';
 
   return (
     <header style={styles.header}>

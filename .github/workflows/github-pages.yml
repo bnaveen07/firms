@@ -1,6 +1,6 @@
 name: Deploy to GitHub Pages
 
-# Deploys the FRIMS frontend as a static site to GitHub Pages.
+# Deploys the BLAZE frontend as a static site to GitHub Pages.
 # The React app is built and uploaded to the gh-pages branch on every push to main.
 # You can also trigger this workflow manually from the Actions tab.
 

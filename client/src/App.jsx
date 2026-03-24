@@ -6,6 +6,7 @@ import useAuth from './hooks/useAuth';
 import PageWrapper from './components/layout/PageWrapper/PageWrapper';
 import ErrorBoundary from './components/common/ErrorBoundary';
 
+import LandingPage from './features/landing/LandingPage';
 import LoginPage from './features/auth/LoginPage';
 import RegisterPage from './features/auth/RegisterPage';
 import DashboardPage from './features/dashboard/DashboardPage';
@@ -22,7 +23,7 @@ import Heatmap from './features/analytics/Heatmap';
 
 const LoadingScreen = () => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', fontSize: '1.2rem', color: '#c0392b' }}>
-    🔥 Loading FRIMS...
+    🔥 Loading BLAZE...
   </div>
 );
 
@@ -61,7 +62,8 @@ const App = () => {
   return (
     <ErrorBoundary>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        {/* Public landing page — always accessible, no auth required */}
+        <Route path="/" element={<LandingPage />} />
 
         <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
         <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />

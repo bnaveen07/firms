@@ -1,6 +1,8 @@
-# 🔥 FRIMS — Fire Risk Incident Management System
+# 🔥 BLAZE — Building & Location Alert Zone Engine
 
-A production-ready full-stack web platform for fire departments to manage NOC applications, track incidents in real-time, and issue QR-verified certificates.
+> **BLAZE** is a production-ready full-stack web platform for fire departments to manage NOC applications, track incidents in real-time, and issue QR-verified safety certificates.
+
+🌐 **Live Demo**: [https://bnaveen07.github.io/firms](https://bnaveen07.github.io/firms)
 
 ## Key Features
 
@@ -20,10 +22,24 @@ A production-ready full-stack web platform for fire departments to manage NOC ap
 | Database | MongoDB Atlas (Mongoose ODM) |
 | Auth | JWT + RBAC (admin / applicant / inspector) |
 | Storage | Firebase Storage (photos, PDFs) |
-| Hosting | Firebase Hosting (CDN) |
+| Hosting | Firebase Hosting (CDN) + GitHub Pages (frontend preview) |
 | Functions | Firebase Cloud Functions |
 | Notifications | Firebase FCM + Nodemailer |
 | CI/CD | GitHub Actions |
+
+## GitHub Pages Deployment
+
+The frontend is automatically deployed to GitHub Pages on every push to `main`.
+
+**Live URL**: `https://bnaveen07.github.io/firms`
+
+To deploy manually:
+```bash
+cd client
+npm run deploy   # runs predeploy (build) then gh-pages -d build
+```
+
+> **Note**: GitHub Pages hosts the static frontend only. The backend (Firebase Cloud Functions + MongoDB) must be separately deployed. See [SETUP.md](./SETUP.md) for the full production setup.
 
 ## Quick Start
 
@@ -54,6 +70,10 @@ See **[SETUP.md](./SETUP.md)** for the complete setup guide.
 | **Admin** | Full access: review applications, assign inspectors, issue NOC, view analytics |
 | **Applicant** | Submit & track their own applications, download certificates |
 | **Inspector** | View assigned inspections, GPS check-in, submit checklists & photos |
+
+## Documentation
+
+See **[CODE_EXPLANATION.md](./CODE_EXPLANATION.md)** for a detailed walkthrough of every file and component in the codebase.
 
 ## License
 

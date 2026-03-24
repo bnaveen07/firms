@@ -5,7 +5,7 @@ export const login = createAsyncThunk('auth/login', async (credentials, { reject
   try {
     const response = await api.post('/auth/login', credentials);
     const { token, user } = response.data;
-    localStorage.setItem('frims_token', token);
+    localStorage.setItem('blaze_token', token);
     return { token, user };
   } catch (error) {
     return rejectWithValue(error.response?.data?.message || 'Login failed');
@@ -16,7 +16,7 @@ export const register = createAsyncThunk('auth/register', async (userData, { rej
   try {
     const response = await api.post('/auth/register', userData);
     const { token, user } = response.data;
-    localStorage.setItem('frims_token', token);
+    localStorage.setItem('blaze_token', token);
     return { token, user };
   } catch (error) {
     return rejectWithValue(error.response?.data?.message || 'Registration failed');
@@ -36,7 +36,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    token: localStorage.getItem('frims_token'),
+    token: localStorage.getItem('blaze_token'),
     loading: false,
     error: null,
     initialized: false,
@@ -46,7 +46,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.initialized = true;
-      localStorage.removeItem('frims_token');
+      localStorage.removeItem('blaze_token');
     },
     clearError: (state) => {
       state.error = null;
@@ -88,7 +88,7 @@ const authSlice = createSlice({
       .addCase(fetchMe.rejected, (state) => {
         state.token = null;
         state.initialized = true;
-        localStorage.removeItem('frims_token');
+        localStorage.removeItem('blaze_token');
       });
   },
 });
