@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { connectSocket, disconnectSocket } from '../services/socket';
 import { useSelector } from 'react-redux';
 
@@ -13,32 +13,41 @@ const useSocket = () => {
     const socket = connectSocket(token);
     socketRef.current = socket;
 
-    socket.on('connect', () => setIsConnected(true));
-    socket.on('disconnect', () => setIsConnected(false));
+    const onConnect = () => setIsConnected(true);
+    const onDisconnect = () => setIsConnected(false);
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
+    // Reflect current connection state immediately
+    if (socket.connected) setIsConnected(true);
 
     return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
       disconnectSocket();
       setIsConnected(false);
     };
   }, [token]);
 
-  const on = (event, callback) => {
+  // Stable references so these can be safely used in useEffect dependency arrays
+  const on = useCallback((event, callback) => {
     if (socketRef.current) {
       socketRef.current.on(event, callback);
     }
-  };
+  }, []);
 
-  const off = (event, callback) => {
+  const off = useCallback((event, callback) => {
     if (socketRef.current) {
       socketRef.current.off(event, callback);
     }
-  };
+  }, []);
 
-  const emit = (event, data) => {
-    if (socketRef.current && isConnected) {
+  const emit = useCallback((event, data) => {
+    if (socketRef.current && socketRef.current.connected) {
       socketRef.current.emit(event, data);
     }
-  };
+  }, []);
 
   return { socket: socketRef.current, isConnected, on, off, emit };
 };

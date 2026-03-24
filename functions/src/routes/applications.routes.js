@@ -5,6 +5,7 @@ const applicationsController = require('../controllers/applications.controller')
 const { authenticate } = require('../middleware/auth');
 const { authorize } = require('../middleware/rbac');
 const { validate } = require('../middleware/validator');
+const { validateObjectId } = require('../middleware/validateObjectId');
 const { ROLES } = require('../config/constants');
 
 router.use(authenticate);
@@ -24,9 +25,9 @@ router.post(
   validate,
   applicationsController.createApplication
 );
-router.get('/:id', applicationsController.getApplication);
-router.put('/:id', applicationsController.updateApplication);
-router.post('/:id/submit', applicationsController.submitApplication);
-router.put('/:id/review', authorize(ROLES.ADMIN), applicationsController.reviewApplication);
+router.get('/:id', validateObjectId('id'), applicationsController.getApplication);
+router.put('/:id', validateObjectId('id'), applicationsController.updateApplication);
+router.post('/:id/submit', validateObjectId('id'), applicationsController.submitApplication);
+router.put('/:id/review', validateObjectId('id'), authorize(ROLES.ADMIN), applicationsController.reviewApplication);
 
 module.exports = router;

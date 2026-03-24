@@ -1,32 +1,36 @@
 require('dotenv').config();
 const http = require('http');
 const { Server } = require('socket.io');
-const app = require('./src/app');
+const createApp = require('./src/app');
 const connectDB = require('./src/config/db');
 const { initFirebase } = require('./src/config/firebase-admin');
 const logger = require('./src/utils/logger');
 
 const PORT = process.env.PORT || 5000;
 
-const server = http.createServer(app);
+// Create a plain http server first so Socket.IO can attach to it
+const server = http.createServer();
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: (process.env.FRONTEND_URL || 'http://localhost:3000')
+      .split(',')
+      .map((o) => o.trim()),
     methods: ['GET', 'POST'],
   },
 });
 
-app.use((req, res, next) => {
-  req.io = io;
-  next();
-});
+// Build the Express app with io injected so all route handlers have req.io
+const app = createApp(io);
+server.on('request', app);
 
 io.on('connection', (socket) => {
   logger.info(`Socket connected: ${socket.id}`);
 
   socket.on('join:incident-room', (data) => {
-    socket.join(`incident-${data.incidentId}`);
+    if (data && data.incidentId) {
+      socket.join(`incident-${data.incidentId}`);
+    }
   });
 
   socket.on('disconnect', () => {

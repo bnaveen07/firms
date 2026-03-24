@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const useGeolocation = () => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getCurrentPosition = () => {
+  const getCurrentPosition = useCallback(() => {
     if (!navigator.geolocation) {
       setError('Geolocation is not supported by this browser');
       return;
     }
 
     setLoading(true);
+    setError(null);
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLocation({
@@ -27,11 +29,11 @@ const useGeolocation = () => {
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
-  };
+  }, []);
 
   useEffect(() => {
     getCurrentPosition();
-  }, []);
+  }, [getCurrentPosition]);
 
   return { location, error, loading, refresh: getCurrentPosition };
 };

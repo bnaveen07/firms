@@ -5,6 +5,7 @@ const inspectionsController = require('../controllers/inspections.controller');
 const { authenticate } = require('../middleware/auth');
 const { authorize } = require('../middleware/rbac');
 const { validate } = require('../middleware/validator');
+const { validateObjectId } = require('../middleware/validateObjectId');
 const { ROLES } = require('../config/constants');
 
 router.use(authenticate);
@@ -21,9 +22,9 @@ router.post(
   validate,
   inspectionsController.createInspection
 );
-router.get('/:id', inspectionsController.getInspection);
-router.put('/:id', authorize(ROLES.ADMIN, ROLES.INSPECTOR), inspectionsController.updateInspection);
-router.post('/:id/checkin', authorize(ROLES.INSPECTOR), inspectionsController.checkIn);
-router.post('/:id/checklist', authorize(ROLES.INSPECTOR), inspectionsController.submitChecklist);
+router.get('/:id', validateObjectId('id'), inspectionsController.getInspection);
+router.put('/:id', validateObjectId('id'), authorize(ROLES.ADMIN, ROLES.INSPECTOR), inspectionsController.updateInspection);
+router.post('/:id/checkin', validateObjectId('id'), authorize(ROLES.INSPECTOR), inspectionsController.checkIn);
+router.post('/:id/checklist', validateObjectId('id'), authorize(ROLES.INSPECTOR), inspectionsController.submitChecklist);
 
 module.exports = router;

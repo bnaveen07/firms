@@ -5,6 +5,7 @@ const incidentsController = require('../controllers/incidents.controller');
 const { authenticate } = require('../middleware/auth');
 const { authorize } = require('../middleware/rbac');
 const { validate } = require('../middleware/validator');
+const { validateObjectId } = require('../middleware/validateObjectId');
 const { ROLES, INCIDENT_SEVERITY } = require('../config/constants');
 
 router.use(authenticate);
@@ -24,8 +25,8 @@ router.post(
   validate,
   incidentsController.createIncident
 );
-router.get('/:id', incidentsController.getIncident);
-router.put('/:id', authorize(ROLES.ADMIN), incidentsController.updateIncident);
-router.post('/:id/updates', incidentsController.addUpdate);
+router.get('/:id', validateObjectId('id'), incidentsController.getIncident);
+router.put('/:id', validateObjectId('id'), authorize(ROLES.ADMIN), incidentsController.updateIncident);
+router.post('/:id/updates', validateObjectId('id'), incidentsController.addUpdate);
 
 module.exports = router;
