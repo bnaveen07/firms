@@ -14,7 +14,12 @@ export const login = createAsyncThunk('auth/login', async (credentials, { reject
 
 export const register = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
   try {
-    const response = await api.post('/auth/register', userData);
+    const payload = { ...userData };
+    // Only send inspectorCode when registering as inspector
+    if (payload.role !== 'inspector') {
+      delete payload.inspectorCode;
+    }
+    const response = await api.post('/auth/register', payload);
     const { token, user } = response.data;
     localStorage.setItem('blaze_token', token);
     return { token, user };

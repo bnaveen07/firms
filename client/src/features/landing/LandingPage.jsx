@@ -47,19 +47,6 @@ const FEATURES = [
   },
 ];
 
-const TECH_STACK = [
-  { label: 'React 18', color: '#61dafb' },
-  { label: 'Redux Toolkit', color: '#a78bfa' },
-  { label: 'Node.js 20', color: '#68a063' },
-  { label: 'Express.js', color: '#e2e8f0' },
-  { label: 'MongoDB Atlas', color: '#4db33d' },
-  { label: 'Socket.IO', color: '#94a3b8' },
-  { label: 'Firebase', color: '#ffca28' },
-  { label: 'Leaflet.js', color: '#86efac' },
-  { label: 'JWT / RBAC', color: '#f87171' },
-  { label: 'Recharts', color: '#38bdf8' },
-];
-
 const STEPS = [
   {
     num: '01',
@@ -362,24 +349,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ── Tech Stack ────────────────────────────────────────────── */}
-      <section style={styles.darkSection}>
-        <div style={styles.sectionHead}>
-          <span style={{ ...styles.sectionTag, color: 'rgba(255,255,255,0.5)' }}>TECHNOLOGY</span>
-          <h2 style={{ ...styles.sectionTitle, color: '#fff' }}>Built with modern, battle-tested tech</h2>
-          <p style={{ ...styles.sectionSub, color: 'rgba(255,255,255,0.55)' }}>
-            Enterprise-grade stack chosen for reliability, scalability, and developer experience.
-          </p>
-        </div>
-        <div style={styles.techGrid}>
-          {TECH_STACK.map(({ label, color }) => (
-            <div key={label} style={{ ...styles.techPill, border: `1px solid ${color}40`, color }}>
-              {label}
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ── CTA Banner ────────────────────────────────────────────── */}
       <section style={styles.ctaBanner}>
         <div style={styles.ctaGlowLeft} aria-hidden="true" />
@@ -407,16 +376,7 @@ const LandingPage = () => {
           </span>
         </div>
         <p style={styles.footerCopy}>
-          © {new Date().getFullYear()} BLAZE. Released under the MIT License.
-          &nbsp;·&nbsp;
-          <a
-            href="https://github.com/bnaveen07/firms"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: '#c0392b' }}
-          >
-            GitHub ↗
-          </a>
+          © {new Date().getFullYear()} BLAZE — NOC &amp; Fire Safety Management Platform. All rights reserved.
         </p>
       </footer>
     </div>
@@ -819,23 +779,6 @@ const styles = {
     display: 'flex',
     alignItems: 'flex-start',
     lineHeight: 1.5,
-  },
-
-  /* Tech */
-  techGrid: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '10px',
-    justifyContent: 'center',
-  },
-  techPill: {
-    padding: '9px 18px',
-    borderRadius: '999px',
-    fontSize: '0.82rem',
-    fontWeight: '600',
-    background: 'rgba(255,255,255,0.04)',
-    letterSpacing: '0.2px',
-    whiteSpace: 'nowrap',
   },
 
   /* CTA Banner */

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import { useGetIncidentsQuery } from '../incidents/incidentsApi';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';

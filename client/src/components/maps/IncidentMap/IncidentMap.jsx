@@ -28,7 +28,7 @@ const createIcon = (severity) =>
   });
 
 const IncidentMap = () => {
-  const { data, refetch } = useGetIncidentsQuery({ limit: 100, status: 'active' });
+  const { data } = useGetIncidentsQuery({ limit: 100, status: 'active' });
   const [incidents, setIncidents] = useState([]);
   const { on, off } = useSocket();
 
