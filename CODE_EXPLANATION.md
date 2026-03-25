@@ -385,6 +385,9 @@ The main dashboard for logged-in users.
 #### `src/components/layout/PageWrapper/PageWrapper.jsx`
 Renders the standard app shell: `<Sidebar />` on the left, `<Header />` at the top, and the page `children` in the main content area. Applied by `ProtectedRoute` to all authenticated pages.
 
+**Responsive Layout Logic**:
+This component manages the mobile navigation state. It detects screen size and provides a `sidebar-overlay` and toggle functionality for the mobile drawer.
+
 CSS classes (`app-layout`, `main-content`, `page-wrapper`) are defined in `index.css`.
 
 #### `src/components/layout/Sidebar/Sidebar.jsx`
@@ -707,9 +710,17 @@ The `on` and `off` callbacks are wrapped in `useCallback` so they are stable ref
 
 ---
 
-## 9. State Management (Redux)
+### 9. State Management (Redux) & Styling
 
-BLAZE uses **Redux Toolkit** with two complementary approaches:
+BLAZE uses **Redux Toolkit** with two complementary approaches, and a standardized CSS system for styling:
+
+#### Centralized Design System (`index.css`)
+To ensure consistency and responsiveness, the app uses a utility-first CSS approach for core components:
+- `.blaze-btn` / `.blaze-btn-primary`: Standardized buttons with hover states.
+- `.blaze-input`: Uniform form inputs with focus indicators.
+- `.blaze-badge`: Styled status indicators.
+- `.blaze-card-interactive`: Hover animations for dashboard and landing cards.
+- **Responsive Utilities**: Classes like `.hero-responsive` and `.register-form-grid` handle viewport-specific layouts.
 
 ### Redux Slice (`auth`)
 For authentication state that is global, complex, and requires async logic (`createAsyncThunk`). State is manually managed with `extraReducers`.

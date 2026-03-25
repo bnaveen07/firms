@@ -282,7 +282,7 @@ const LandingPage = () => {
         </div>
         <div style={styles.featuresGrid}>
           {FEATURES.map(({ icon, title, desc, color }) => (
-            <div key={title} style={styles.featureCard}>
+            <div key={title} style={styles.featureCard} className="blaze-card-interactive">
               <div style={{ ...styles.featureIconWrap, background: color + '18', color }}>
                 {icon}
               </div>
@@ -331,7 +331,7 @@ const LandingPage = () => {
         </div>
         <div style={styles.rolesGrid}>
           {ROLES.map(({ icon, role, color, capabilities }) => (
-            <div key={role} style={{ ...styles.roleCard, borderTop: `4px solid ${color}` }}>
+            <div key={role} style={{ ...styles.roleCard, borderTop: `4px solid ${color}` }} className="blaze-card-interactive">
               <div style={{ ...styles.roleIconWrap, background: color + '18', color }}>
                 {icon}
               </div>

@@ -18,7 +18,7 @@ const ROLE_META = {
   inspector: { color: '#16a34a', bg: 'rgba(22,163,74,0.1)', label: 'Inspector' },
 };
 
-const Header = () => {
+const Header = ({ onMenuClick, isMobile }) => {
   const location = useLocation();
   const { user } = useAuth();
   const title = PAGE_TITLES[location.pathname] || 'BLAZE';
@@ -28,18 +28,28 @@ const Header = () => {
   return (
     <header style={styles.header}>
       <div style={styles.left}>
+        {isMobile && (
+          <button onClick={onMenuClick} style={styles.menuBtn}>
+            ☰
+          </button>
+        )}
         <h2 style={styles.title}>{title}</h2>
-        <div style={styles.liveChip}>
-          <span style={styles.liveDot} />
-          Live
-        </div>
+        {!isMobile && (
+          <div style={styles.liveChip}>
+            <span style={styles.liveDot} />
+            Live
+          </div>
+        )}
       </div>
       <div style={styles.right}>
-        <span style={styles.orgName}>
-          {user?.organization ? user.organization : user?.name}
-        </span>
+        {!isMobile && (
+          <span style={styles.orgName}>
+            {user?.organization ? user.organization : user?.name}
+          </span>
+        )}
         <div style={{ ...styles.roleBadge, background: meta.bg, color: meta.color }}>
-          {role === 'admin' ? '🛡️' : role === 'inspector' ? '🔍' : '🏢'} {meta.label}
+          {role === 'admin' ? '🛡️' : role === 'inspector' ? '🔍' : '🏢'}
+          {!isMobile && <span style={{ marginLeft: '5px' }}>{meta.label}</span>}
         </div>
       </div>
     </header>
@@ -61,6 +71,15 @@ const styles = {
     boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
   },
   left: { display: 'flex', alignItems: 'center', gap: '12px' },
+  menuBtn: {
+    background: 'none',
+    border: 'none',
+    fontSize: '1.5rem',
+    cursor: 'pointer',
+    color: '#111827',
+    padding: '4px',
+    marginRight: '8px',
+  },
   title: { fontSize: '1rem', color: '#111827', margin: 0, fontWeight: '700', letterSpacing: '0.1px' },
   liveChip: {
     display: 'flex',
