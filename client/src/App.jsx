@@ -5,6 +5,8 @@ import { fetchMe } from './features/auth/authSlice';
 import useAuth from './hooks/useAuth';
 import PageWrapper from './components/layout/PageWrapper/PageWrapper';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import LoadingScreen from './components/common/LoadingScreen';
+import NotFound from './components/common/NotFound';
 
 import LandingPage from './features/landing/LandingPage';
 import LoginPage from './features/auth/LoginPage';
@@ -21,12 +23,6 @@ import VerifyNOC from './features/noc/VerifyNOC';
 import AnalyticsDashboard from './features/analytics/AnalyticsDashboard';
 import Heatmap from './features/analytics/Heatmap';
 
-const LoadingScreen = () => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', fontSize: '1.2rem', color: '#c0392b' }}>
-    🔥 Loading BLAZE...
-  </div>
-);
-
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, initialized } = useAuth();
   if (!initialized) return <LoadingScreen />;
@@ -40,14 +36,6 @@ const PublicRoute = ({ children }) => {
   if (isAuthenticated) return <Navigate to="/dashboard" replace />;
   return children;
 };
-
-const NotFound = () => (
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-    <h1 style={{ fontSize: '4rem', color: '#c0392b' }}>404</h1>
-    <p style={{ color: '#6c757d', marginBottom: '16px' }}>Page not found</p>
-    <Link to="/dashboard" style={{ color: '#2980b9', fontWeight: '600' }}>Go to Dashboard</Link>
-  </div>
-);
 
 const App = () => {
   const dispatch = useDispatch();

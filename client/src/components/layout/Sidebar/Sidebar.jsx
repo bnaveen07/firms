@@ -17,7 +17,7 @@ const ROLE_META = {
   inspector: { label: 'Inspector', color: '#2ecc82', bg: 'rgba(46,204,130,0.15)', border: 'rgba(46,204,130,0.3)' },
 };
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, isMobile, onClose }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const role = user?.role || 'applicant';
@@ -30,8 +30,10 @@ const Sidebar = () => {
 
   const visibleItems = NAV_ITEMS.filter((item) => item.roles.includes(role));
 
+  const sidebarClass = `sidebar-container ${isMobile ? (isOpen ? 'sidebar-open' : 'sidebar-hidden') : ''}`;
+
   return (
-    <aside style={styles.sidebar}>
+    <aside style={styles.sidebar} className={sidebarClass}>
       {/* Brand */}
       <div style={styles.brand}>
         <div style={styles.brandIconWrap}>
@@ -41,10 +43,9 @@ const Sidebar = () => {
           <div style={styles.brandName}>BLAZE</div>
           <div style={styles.brandSub}>NOC Management</div>
         </div>
-        <div style={styles.liveChip}>
-          <span style={styles.liveDot} />
-          LIVE
-        </div>
+        {isMobile && (
+          <button onClick={onClose} style={styles.closeBtn}>✕</button>
+        )}
       </div>
 
       {/* Role badge */}
@@ -61,6 +62,7 @@ const Sidebar = () => {
           <NavLink
             key={to}
             to={to}
+            onClick={isMobile ? onClose : undefined}
             style={({ isActive }) => ({ ...styles.navLink, ...(isActive ? { ...styles.navLinkActive, borderLeft: `3px solid ${meta.color}` } : {}) })}
           >
             <span style={styles.navIcon}>{emoji}</span>
@@ -101,6 +103,7 @@ const styles = {
     zIndex: 100,
     overflowY: 'auto',
     borderRight: '1px solid rgba(255,255,255,0.06)',
+    transition: 'transform 0.3s ease-in-out',
   },
 
   /* Brand */
@@ -126,27 +129,14 @@ const styles = {
   brandIcon: { lineHeight: 1 },
   brandName: { fontSize: '1rem', fontWeight: '800', color: '#fff', letterSpacing: '0.5px' },
   brandSub: { fontSize: '0.62rem', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.6px', marginTop: '1px' },
-  liveChip: {
+  closeBtn: {
     marginLeft: 'auto',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '4px',
-    background: 'rgba(46,204,130,0.12)',
-    border: '1px solid rgba(46,204,130,0.25)',
-    color: '#2ecc82',
-    fontSize: '0.6rem',
-    fontWeight: '800',
-    letterSpacing: '0.8px',
-    padding: '3px 7px',
-    borderRadius: '999px',
-  },
-  liveDot: {
-    width: '5px',
-    height: '5px',
-    borderRadius: '50%',
-    background: '#2ecc82',
-    display: 'inline-block',
-    boxShadow: '0 0 0 2px rgba(46,204,130,0.3)',
+    background: 'none',
+    border: 'none',
+    color: '#fff',
+    fontSize: '1.2rem',
+    cursor: 'pointer',
+    padding: '4px',
   },
 
   /* Role area */

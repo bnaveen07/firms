@@ -7,7 +7,7 @@ import IncidentMap from '../../components/maps/IncidentMap/IncidentMap';
 
 const StatCard = ({ title, value, icon, color, link }) => (
   <Link to={link || '#'} style={{ textDecoration: 'none' }}>
-    <div style={{ ...cardStyles.card, borderLeft: `4px solid ${color}` }}>
+    <div style={{ ...cardStyles.card, borderLeft: `4px solid ${color}` }} className="blaze-card-interactive">
       <div>
         <p style={cardStyles.title}>{title}</p>
         <p style={{ ...cardStyles.value, color }}>{value ?? '—'}</p>

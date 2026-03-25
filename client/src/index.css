@@ -16,6 +16,7 @@
   --light: #f4f6f9;
   --border: #eef0f4;
   --sidebar-width: 256px;
+  --transition: all 0.3s ease-in-out;
 }
 
 body {
@@ -80,8 +81,146 @@ a {
   to { transform: rotate(360deg); }
 }
 
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 95;
+  transition: var(--transition);
+}
+
+.blaze-card-interactive {
+  transition: var(--transition);
+}
+
+.blaze-card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0;
+  }
+
+  .sidebar-hidden {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-open {
+    transform: translateX(0) !important;
+  }
+
+  .hero-responsive {
+    text-align: center;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+  .hero-responsive > div {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+  }
+  .hero-responsive p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-responsive .hero-ctas,
+  .hero-responsive .hero-meta {
+    justify-content: center !important;
+  }
+}
+
+/* Global Reusable Classes */
+.blaze-btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.2px;
+}
+
+.blaze-btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(229, 92, 74, 0.3);
+}
+
+.blaze-btn-primary:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 6px 16px rgba(229, 92, 74, 0.45);
+}
+
+.blaze-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #dee2e6;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  color: var(--secondary);
+  background: #fff;
+}
+
+.blaze-input:focus {
+  border-color: var(--primary);
+}
+
+.blaze-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.blaze-error-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fef2f2;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+/* Register Page Responsiveness */
+.register-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .register-wrapper {
+    flex-direction: column;
+    max-width: 480px !important;
+  }
+  .register-left-panel {
+    flex: 0 0 auto !important;
+    padding: 24px !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .register-bullets, .register-steps {
+    display: none !important;
+  }
+  .register-form-grid {
+    grid-template-columns: 1fr;
   }
 }
